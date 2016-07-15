@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    
+    <Properties>
+       
+        <Property name="path">${sys:log.home}</Property>
+        <Property name="trace_file">${path}/trace/trace</Property>
+        <Property name="debug_file">${path}/debug/debug</Property>
+        <Property name="info_file">${path}/info/info</Property>
+        <Property name="warn_file">${path}/warn/warn</Property>
+        <Property name="error_file">${path}/error/error</Property>
+        <Property name="fatal_file">${path}/fatal/fatal</Property>
+        <Property name="request_file">${path}/request/request</Property>
+        <Property name="response_file">${path}/reply/reply</Property>
+        
+        <Property name="file_naming_pattern">%d{MM-dd-yyyy}-%i</Property>
+        <Property name="pattern">%n--------------------------------- %d %p [%c]----------------------------%n %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        
+        <RollingFile name="RollingFileFatal" fileName="${fatal_file}.log"   filePattern="${fatal_file}-${file_naming_pattern}.log">
+       
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        <RollingFile name="RollingFileError" fileName="${error_file}.log"   filePattern="${error_file}-${file_naming_pattern}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        
+        <RollingFile name="RollingFileWarn" fileName="${warn_file}.log"   filePattern="${warn_file}-${file_naming_pattern}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        <RollingFile name="RollingFileInfo" fileName="${info_file}.log"   filePattern="${info_file}-${file_naming_pattern}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        <RollingFile name="RollingFileDebug" fileName="${debug_file}.log"   filePattern="${debug_file}-${file_naming_pattern}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        <RollingFile name="RollingFileTrace" fileName="${trace_file}.log"   filePattern="${trace_file}-${file_naming_pattern}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        <RollingFile name="RollingFileRequest" fileName="${request_file}.log"   filePattern="${request_file}-${file_naming_pattern}.log">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+        
+        <RollingFile name="RollingFileResponse" fileName="${response_file}.log"   filePattern="${response_file}-${file_naming_pattern}.log">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"/>
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="LogRequest" level="INFO" >
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileRequest"/>
+        </Logger>
+        <Logger name="LogReply" level="INFO" >
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileResponse"/>
+        </Logger>
+     
+        <Root level="trace">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFileFatal" level="FATAL"/>
+            <AppenderRef ref="RollingFileError" level="ERROR"/>
+            <AppenderRef ref="RollingFileWarn"  level="WARN" />
+            <AppenderRef ref="RollingFileInfo"  level="INFO" />
+            <AppenderRef ref="RollingFileDebug" level="DEBUG" />
+            <AppenderRef ref="RollingFileTrace" level="TRACE" />
+
+        </Root>
+    </Loggers>
+</Configuration>
