@@ -7,4 +7,5 @@ Then do as shown in the screenshot
 
 When build completed you can find the LoggerModule.jar in 'store' directory. 
 </br>Feel free to add modifications.
+You can find the config file in /src/log4j2-test.xml
 </br>Thanks in advance!
