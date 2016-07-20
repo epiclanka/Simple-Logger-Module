@@ -185,22 +185,22 @@ public class Logger4j {
         return RESP_LOGGER;
     }
 
-    public static StackTraceElement getCallerStackTraceElement() {
+    protected static StackTraceElement getCallerStackTraceElement() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         return stackTraceElements[3];
     }
 
-    public static String getCallerClass() {
+    protected static String getCallerClass() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         return stackTraceElements[3].getClassName();
     }
 
-    public static String getCallerMethodName() {
+    protected static String getCallerMethodName() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         return stackTraceElements[3].getMethodName();
     }
 
-    public static String getCallerClass_MethodName() {
+    protected static String getCallerClass_MethodName() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         StackTraceElement element = stackTraceElements[3];
         return element.getClassName() + "." + element.getMethodName();
