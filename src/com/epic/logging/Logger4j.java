@@ -5,6 +5,9 @@
  */
 package com.epic.logging;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,13 +67,12 @@ import org.apache.logging.log4j.Logger;
 public class Logger4j {
 
     static {
-      
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {//if log.home is not set set default path
-            System.setProperty("log.home", System.getProperty("log.home", "C:/EPIC/mserverLogs2"));
-        } else {
-            System.setProperty("log.home", System.getProperty("log.home","etc/epic/mserverLogs"));
-        }
+
+        String currentUsersHomeDir = System.getProperty("user.home");
+        String loggingFolder = currentUsersHomeDir + File.separator + "EPIC"+File.separator +"MServerLogs";
+        System.setProperty("log.home", System.getProperty("log.home", loggingFolder));
+        System.out.println(System.getProperty("log.home"));
+
         System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");//set async logging
 
         LOGGR = LogManager.getRootLogger();
@@ -169,11 +171,12 @@ public class Logger4j {
 
         LogManager.getLogger(getCallerClass_MethodName()).trace(msg, thr);
     }
-    
-    public void log_request(String msg){
+
+    public void log_request(String msg) {
         REQ_LOGGER.info(msg);
     }
-    public void log_response(String msg){
+
+    public void log_response(String msg) {
         RESP_LOGGER.info(msg);
     }
 
@@ -206,4 +209,10 @@ public class Logger4j {
         return element.getClassName() + "." + element.getMethodName();
     }
 
+    public static void main(String[] args) {
+        String currentUsersHomeDir = System.getProperty("user.home");
+        System.out.println(currentUsersHomeDir);
+
+    }
 }
+
